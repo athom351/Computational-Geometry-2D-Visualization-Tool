@@ -36,7 +36,9 @@ namespace Geo2Util
 
     std::string toString(Segment_2 seg) {
 
-        return "LINE_SEGMENT" + Black() + DottedBoundary();
+        return "LINE_SEGMENT" + Black() + DottedBoundary() + "\n"
+                + toString(seg.source()) + "\n"
+                + toString(seg.target());
     }
 
     std::string toString(Circle_2 circ) {
@@ -46,7 +48,8 @@ namespace Geo2Util
 
 
         std::ostringstream c;
-        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis << Black() << DashedBoundary() << Black();
+        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis << Black() << DashedBoundary() << Black() + "\n"
+            << toString(circ.center());
 
         return c.str();
     }
@@ -54,12 +57,17 @@ namespace Geo2Util
 
     std::string toString(Triangle_2 tri) {
 
-        return "TRIANGLE" + Black() + DottedBoundary() + Black();
+        return "TRIANGLE" + Black() + DottedBoundary() + Black() + "\n"
+                + toString(tri[0]) + "\n"
+                + toString(tri[1]) + "\n"
+                + toString(tri[2]);
     }
 
     std::string toString(Iso_rectangle_2 rect) {
 
-        return "RECTANGLE" + Black() + DottedBoundary() + Black();
+        return "RECTANGLE" + Black() + DottedBoundary() + Black() + "\n"
+                + toString(rect.min()) + "\n"
+                + toString(rect.max());
     }
 
     void printToFile(std::string filename, std::string p[], int total) {

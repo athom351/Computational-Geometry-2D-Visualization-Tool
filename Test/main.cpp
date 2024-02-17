@@ -87,44 +87,47 @@ typedef K::Segment_2 Segment_2;
 int main()
 {
     Point_2 p0(12, -15), p1(-10, -25.3), p2(-0.01, 0.2);
+
     Point_2 s1(10, 10), s2(40, 40);
     Segment_2 seg(s1, s2);
 
-
-
     Point_2 p(10, 10), q(20, 15), s(10, 15);
-    Circle_2 circ(p, 4);
     Triangle_2 tri(p, q, s);
+
+    Circle_2 circ(p, 4);
+
     Iso_rectangle_2 rect(p, q);
 
 
-    string geomObjectArray[15];
+    string geomObjectArray[7];
     geomObjectArray[0] = Geo2Util::toString(p0);
     geomObjectArray[1] = Geo2Util::toString(p1);
     geomObjectArray[2] = Geo2Util::toString(p2);
     geomObjectArray[3] = Geo2Util::toString(seg); 
-    geomObjectArray[4] = Geo2Util::toString(s1);
-    geomObjectArray[5] = Geo2Util::toString(s2);
+    //geomObjectArray[4] = Geo2Util::toString(s1);
+    //geomObjectArray[5] = Geo2Util::toString(s2);
 
+    geomObjectArray[4] = Geo2Util::toString(circ);
 
-    geomObjectArray[6] = Geo2Util::toString(circ);
-    geomObjectArray[7] = Geo2Util::toString(p);
+    //geomObjectArray[6] = Geo2Util::toString(circ);
+    //geomObjectArray[7] = Geo2Util::toString(p);
 
-    geomObjectArray[8] = Geo2Util::toString(tri);
-    geomObjectArray[9] = Geo2Util::toString(p);
-    geomObjectArray[10] = Geo2Util::toString(q);
-    geomObjectArray[11] = Geo2Util::toString(s);
+    geomObjectArray[5] = Geo2Util::toString(tri);
 
-    geomObjectArray[12] = Geo2Util::toString(rect);
-    geomObjectArray[13] = Geo2Util::toString(p);
-    geomObjectArray[14] = Geo2Util::toString(q);
+    //geomObjectArray[8] = Geo2Util::toString(tri);
+    //geomObjectArray[9] = Geo2Util::toString(p);
+    //geomObjectArray[10] = Geo2Util::toString(q);
+    //geomObjectArray[11] = Geo2Util::toString(s);
 
+    geomObjectArray[6] = Geo2Util::toString(rect);
 
-    
-    
+    //geomObjectArray[12] = Geo2Util::toString(rect);
+    //geomObjectArray[13] = Geo2Util::toString(p);
+    //geomObjectArray[14] = Geo2Util::toString(q);
+  
    
     Geo2Util::printToFile("test.txt", geomObjectArray, 15);
-    cout << "After project refactored!" << endl;
+
 }
 
 /*
