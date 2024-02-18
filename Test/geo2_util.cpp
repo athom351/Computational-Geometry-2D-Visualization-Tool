@@ -5,26 +5,24 @@
 
 #include "geo2_util.h"
 
-namespace Geo2Util
-{
+namespace Geo2Util {
     std::string Black() {
         static std::string black(" 0 0 0 255");
         return black;
     }
-    //Setcolor
-    std::string SolidBoundary() {
-        static std::string solidBoundary(" 0");
-        return solidBoundary;
-    }
 
-    std::string DottedBoundary() {
-        static std::string dottedBoundary(" 1");
-        return dottedBoundary;
-    }
-
-    std::string DashedBoundary() {
-        static std::string dashedBoundary(" 2");
-        return dashedBoundary;
+    /**
+     * @brief Convert BoundaryType string with its x and y coordinate
+     * @param t Boundary Type
+     * @return A string object containing the representation of BoundaryType
+     */
+    std::string toString(const BoundaryType& t) {
+        switch (t) {
+            case BoundaryType::Solid : return "0";
+            case BoundaryType::Dotted : return "1";
+            case BoundaryType::Dashed : return "2";
+            default: return "N/A";
+        }
     }
 
     /**
@@ -35,7 +33,8 @@ namespace Geo2Util
     std::string toString(const Point_2& p) {
 
         std::ostringstream s;
-        s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " " << p.y() << Black() + SolidBoundary() + Black();
+        s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " " << p.y() 
+            << Black() + toString(BoundaryType::Solid) + Black();
 
         return s.str();
     }
@@ -47,7 +46,7 @@ namespace Geo2Util
      */
     std::string toString(const Segment_2& seg) {
 
-        return "LINE_SEGMENT" + Black() + DottedBoundary() + "\n"
+        return "LINE_SEGMENT" + Black() + toString(BoundaryType::Dotted) + "\n"
                 + toString(seg.source()) + "\n"
                 + toString(seg.target());
     }
@@ -62,7 +61,8 @@ namespace Geo2Util
         double raduis = std::sqrt(circ.squared_radius());
 
         std::ostringstream c;
-        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis << Black() << DashedBoundary() << Black() + "\n"
+        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis 
+            << Black() << toString(BoundaryType::Dashed) << Black() + "\n"
             << toString(circ.center());
 
         return c.str();
@@ -75,7 +75,7 @@ namespace Geo2Util
      */
     std::string toString(const Triangle_2& tri) {
 
-        return "TRIANGLE" + Black() + DottedBoundary() + Black() + "\n"
+        return "TRIANGLE" + Black() + toString(BoundaryType::Dotted) + Black() + "\n"
                 + toString(tri[0]) + "\n"
                 + toString(tri[1]) + "\n"
                 + toString(tri[2]);
@@ -88,17 +88,17 @@ namespace Geo2Util
      */
     std::string toString(const Iso_rectangle_2& rect) {
 
-        return "RECTANGLE" + Black() + DottedBoundary() + Black() + "\n"
+        return "RECTANGLE" + Black() + toString(BoundaryType::Dotted) + Black() + "\n"
                 + toString(rect.min()) + "\n"
                 + toString(rect.max());
     }
 
-    void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Obj) {
+    void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects) {
 
         std::ofstream output(filename);
         output << std::fixed << std::setprecision(10);
-        for (int i = 0; i < geo2_Obj.size(); i++) {
-            output << geo2_Obj[i] << std::endl;
+        for (int i = 0; i < geo2_Objects.size(); i++) {
+            output << geo2_Objects[i] << std::endl;
         }
         output.close();
     }
