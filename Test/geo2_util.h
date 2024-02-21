@@ -2,10 +2,10 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
 #include <string>
+#include <vector>
 
 
-namespace Geo2Util 
-{
+namespace Geo2Util {
     typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
     typedef K::Point_2 Point_2;
     typedef K::Circle_2 Circle_2;
@@ -14,15 +14,19 @@ namespace Geo2Util
     typedef K::Segment_2 Segment_2;
 
     std::string Black();
-    std::string SolidBoundary();
-    std::string DottedBoundary();
-    std::string DashedBoundary();
 
-    std::string toString(Point_2 p);
-    std::string toString(Segment_2 seg);
-    std::string toString(Circle_2 circ);
-    std::string toString(Triangle_2 tri);
-    std::string toString(Iso_rectangle_2 rect);
+    enum class BoundaryType : short {
+        Solid = 0,
+        Dotted = 1,
+        Dashed = 2
+    };
+    std::string toString(const BoundaryType& t);
 
-    void printToFile(std::string filename, std::string p[], int total);
+    std::string toString(const Point_2& p);
+    std::string toString(const Segment_2& seg);
+    std::string toString(const Circle_2& circ);
+    std::string toString(const Triangle_2& tri);
+    std::string toString(const Iso_rectangle_2& rect);
+
+    void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);
 }
