@@ -6,9 +6,16 @@
 #include "geo2_util.h"
 
 namespace Geo2Util {
-    std::string Black() {
-        static std::string black(" 0 0 0 255");
-        return black;
+    /**
+     * @brief Convert color to string in a form of "r, g, b, trans"
+     * @param color Color object (r, b, g, trans)
+     * @return A string object containing the representation of Color
+     */
+    std::string toString(const Color& color) {
+        return std::to_string(color.r) + " "
+                + std::to_string(color.g) + " "
+                + std::to_string(color.b) + " "
+                + std::to_string(color.trans);
     }
 
     /**
@@ -25,6 +32,7 @@ namespace Geo2Util {
         }
     }
 
+    // Default color = Color::OpaqueBlack = Color{0, 0, 0, 255}; default boundary type = BoundaryType::Solid
     /**
      * @brief Convert Point_2 object to string with its x and y coordinate
      * @param p Point_2 object
@@ -33,8 +41,11 @@ namespace Geo2Util {
     std::string toString(const Point_2& p) {
 
         std::ostringstream s;
-        s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " " << p.y() 
-            << Black() + toString(BoundaryType::Solid) + Black();
+        s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " "
+            << p.y() << " "
+            << toString(Geo2Util::DefaultBoundaryColor) << " "
+            << toString(Geo2Util::DefaultBoundaryType) << " "
+            << toString(Geo2Util::DefaultInteriorColor);
 
         return s.str();
     }
@@ -46,7 +57,8 @@ namespace Geo2Util {
      */
     std::string toString(const Segment_2& seg) {
 
-        return "LINE_SEGMENT" + Black() + toString(BoundaryType::Dotted) + "\n"
+        return "LINE_SEGMENT " + toString(Geo2Util::DefaultBoundaryColor) + " "
+                + toString(Geo2Util::DefaultBoundaryType) + "\n"
                 + toString(seg.source()) + "\n"
                 + toString(seg.target());
     }
@@ -61,8 +73,10 @@ namespace Geo2Util {
         double raduis = std::sqrt(circ.squared_radius());
 
         std::ostringstream c;
-        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis 
-            << Black() << toString(BoundaryType::Dashed) << Black() + "\n"
+        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis << " "
+            << toString(Geo2Util::DefaultBoundaryColor) << " "
+            << toString(Geo2Util::DefaultBoundaryType) << " "
+            << toString(Geo2Util::DefaultInteriorColor) + "\n"
             << toString(circ.center());
 
         return c.str();
@@ -75,7 +89,9 @@ namespace Geo2Util {
      */
     std::string toString(const Triangle_2& tri) {
 
-        return "TRIANGLE" + Black() + toString(BoundaryType::Dotted) + Black() + "\n"
+        return "TRIANGLE " + toString(Geo2Util::DefaultBoundaryColor) + " "
+                + toString(Geo2Util::DefaultBoundaryType) + " "
+                + toString(Geo2Util::DefaultInteriorColor) + "\n"
                 + toString(tri[0]) + "\n"
                 + toString(tri[1]) + "\n"
                 + toString(tri[2]);
@@ -88,7 +104,9 @@ namespace Geo2Util {
      */
     std::string toString(const Iso_rectangle_2& rect) {
 
-        return "RECTANGLE" + Black() + toString(BoundaryType::Dotted) + Black() + "\n"
+        return "RECTANGLE " + toString(Geo2Util::DefaultBoundaryColor) + " "
+                + toString(Geo2Util::DefaultBoundaryType) + " "
+                + toString(Geo2Util::DefaultInteriorColor) + "\n"
                 + toString(rect.min()) + "\n"
                 + toString(rect.max());
     }

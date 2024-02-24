@@ -13,20 +13,38 @@ namespace Geo2Util {
     typedef K::Triangle_2 Triangle_2;
     typedef K::Segment_2 Segment_2;
 
-    std::string Black();
+    struct Color {
+        short r;
+        short g;
+        short b;
+        short trans = 255;
+    };
 
     enum class BoundaryType : short {
         Solid = 0,
         Dotted = 1,
         Dashed = 2
     };
-    std::string toString(const BoundaryType& t);
 
+    // Constants
+    const Color DefaultBoundaryColor = { 0, 0, 0, 255 };
+    const Color DefaultInteriorColor = { 0, 0, 0, 255 };
+    const BoundaryType DefaultBoundaryType = BoundaryType::Solid;
+
+    // Visual Properties toString
+    std::string toString(const Color& color);
+    std::string toString(const BoundaryType& bt);
+
+    // Default toString
     std::string toString(const Point_2& p);
     std::string toString(const Segment_2& seg);
     std::string toString(const Circle_2& circ);
     std::string toString(const Triangle_2& tri);
     std::string toString(const Iso_rectangle_2& rect);
 
+    // Customized toString
+
+    
+    // Export 2D Geometry Object to File
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);
 }

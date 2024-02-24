@@ -135,7 +135,4 @@ int main()
    
     //Geo2Util::printToFile("test.txt", geomObjectArray);
 
-    Geo2Util::BoundaryType bt{ Geo2Util::BoundaryType::Solid };
-    cout << Geo2Util::toString(bt);
-
 }
