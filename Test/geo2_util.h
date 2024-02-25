@@ -43,7 +43,13 @@ namespace Geo2Util {
     std::string toString(const Iso_rectangle_2& rect);
 
     // Customized toString
-
+    //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
+    //! Underlying points of all objects have the same boundary type as the objects themselves
+    std::string toString(const Point_2& p, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Segment_2& seg, const Color& boundaryColor, const BoundaryType btype);
+    std::string toString(const Circle_2& circ, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Triangle_2& tri, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Iso_rectangle_2& rect, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     
     // Export 2D Geometry Object to File
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);

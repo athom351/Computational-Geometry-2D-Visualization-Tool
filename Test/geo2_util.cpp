@@ -32,7 +32,6 @@ namespace Geo2Util {
         }
     }
 
-    // Default color = Color::OpaqueBlack = Color{0, 0, 0, 255}; default boundary type = BoundaryType::Solid
     /**
      * @brief Convert Point_2 object to string with its x and y coordinate
      * @param p Point_2 object
@@ -111,6 +110,66 @@ namespace Geo2Util {
                 + toString(rect.max());
     }
 
+    // Customized toString
+    //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
+    //! Underlying points of all objects have the same boundary type as the objects themselves
+    std::string toString(const Point_2& p, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+        std::ostringstream s;
+        s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " "
+            << p.y() << " "
+            << toString(boundaryColor) << " "
+            << toString(interiorColor) << " "
+            << toString(btype);
+
+        return s.str();
+    }
+
+    std::string toString(const Segment_2& seg, const Color& boundaryColor, const BoundaryType btype) {
+
+        return "LINE_SEGMENT " + toString(boundaryColor) + " "
+            + toString(btype) + "\n"
+            + toString(seg.source(), boundaryColor, btype, boundaryColor) + "\n"
+            + toString(seg.target(), boundaryColor, btype, boundaryColor);
+    }
+
+    std::string toString(const Circle_2& circ, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+
+        double raduis = std::sqrt(circ.squared_radius());
+
+        std::ostringstream c;
+        c << std::fixed << std::setprecision(10) << "CIRCLE " << raduis << " "
+            << toString(boundaryColor) << " "
+            << toString(interiorColor) << " "
+            << toString(btype) + "\n"
+            << toString(circ.center(), boundaryColor, btype, boundaryColor);
+
+        return c.str();
+    }
+
+    std::string toString(const Triangle_2& tri, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+
+        return "TRIANGLE " + toString(boundaryColor) + " "
+            + toString(btype) + " "
+            + toString(interiorColor) + "\n"
+            + toString(tri[0], boundaryColor, btype, boundaryColor) + "\n"
+            + toString(tri[1], boundaryColor, btype, boundaryColor) + "\n"
+            + toString(tri[2], boundaryColor, btype, boundaryColor);
+    }
+
+    std::string toString(const Iso_rectangle_2& rect, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+
+        return "RECTANGLE " + toString(boundaryColor) + " "
+            + toString(btype) + " "
+            + toString(interiorColor) + "\n"
+            + toString(rect.min(), boundaryColor, btype, boundaryColor) + "\n"
+            + toString(rect.max(), boundaryColor, btype, boundaryColor);
+    }
+
+    /**
+     * @brief Export a collect of 2D geometry objects to a file
+     * @param filename Export target file
+     * @param geo2_Objects String representations of a collection of 2D geometry objects
+     */
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects) {
 
         std::ofstream output(filename);
