@@ -1,5 +1,7 @@
 #pragma once
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/Polygon_with_holes_2.h>
 
 #include <string>
 #include <vector>
@@ -12,6 +14,8 @@ namespace Geo2Util {
     typedef K::Iso_rectangle_2 Iso_rectangle_2;
     typedef K::Triangle_2 Triangle_2;
     typedef K::Segment_2 Segment_2;
+    typedef CGAL::Polygon_2<K> Polygon_2;
+    typedef CGAL::Polygon_with_holes_2<K> Polygon_with_holes_2;
 
     struct Color {
         short r;
@@ -29,6 +33,7 @@ namespace Geo2Util {
     // Constants
     const Color DefaultBoundaryColor = { 0, 0, 0, 255 };
     const Color DefaultInteriorColor = { 0, 0, 0, 255 };
+    const Color TransparentWhite = { 255, 255, 255, 0 };
     const BoundaryType DefaultBoundaryType = BoundaryType::Solid;
 
     // Visual Properties toString
@@ -41,6 +46,8 @@ namespace Geo2Util {
     std::string toString(const Circle_2& circ);
     std::string toString(const Triangle_2& tri);
     std::string toString(const Iso_rectangle_2& rect);
+    std::string toString(const Polygon_2 & poly);
+    std::string toString(const Polygon_with_holes_2 & poly_w_h);
 
     // Customized toString
     //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
@@ -50,6 +57,8 @@ namespace Geo2Util {
     std::string toString(const Circle_2& circ, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     std::string toString(const Triangle_2& tri, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     std::string toString(const Iso_rectangle_2& rect, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Polygon_2& poly, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Polygon_with_holes_2& poly_w_h, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     
     // Export 2D Geometry Object to File
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);

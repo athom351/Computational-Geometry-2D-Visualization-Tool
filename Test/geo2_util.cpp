@@ -13,9 +13,9 @@ namespace Geo2Util {
      */
     std::string toString(const Color& color) {
         return std::to_string(color.r) + " "
-                + std::to_string(color.g) + " "
-                + std::to_string(color.b) + " "
-                + std::to_string(color.trans);
+            + std::to_string(color.g) + " "
+            + std::to_string(color.b) + " "
+            + std::to_string(color.trans);
     }
 
     /**
@@ -57,9 +57,9 @@ namespace Geo2Util {
     std::string toString(const Segment_2& seg) {
 
         return "LINE_SEGMENT " + toString(Geo2Util::DefaultBoundaryColor) + " "
-                + toString(Geo2Util::DefaultBoundaryType) + "\n"
-                + toString(seg.source()) + "\n"
-                + toString(seg.target());
+            + toString(Geo2Util::DefaultBoundaryType) + "\n"
+            + toString(seg.source()) + "\n"
+            + toString(seg.target());
     }
 
     /**
@@ -89,11 +89,11 @@ namespace Geo2Util {
     std::string toString(const Triangle_2& tri) {
 
         return "TRIANGLE " + toString(Geo2Util::DefaultBoundaryColor) + " "
-                + toString(Geo2Util::DefaultBoundaryType) + " "
-                + toString(Geo2Util::DefaultInteriorColor) + "\n"
-                + toString(tri[0]) + "\n"
-                + toString(tri[1]) + "\n"
-                + toString(tri[2]);
+            + toString(Geo2Util::DefaultBoundaryType) + " "
+            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+            + toString(tri[0]) + "\n"
+            + toString(tri[1]) + "\n"
+            + toString(tri[2]);
     }
 
     /**
@@ -104,10 +104,48 @@ namespace Geo2Util {
     std::string toString(const Iso_rectangle_2& rect) {
 
         return "RECTANGLE " + toString(Geo2Util::DefaultBoundaryColor) + " "
-                + toString(Geo2Util::DefaultBoundaryType) + " "
-                + toString(Geo2Util::DefaultInteriorColor) + "\n"
-                + toString(rect.min()) + "\n"
-                + toString(rect.max());
+            + toString(Geo2Util::DefaultBoundaryType) + " "
+            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+            + toString(rect.min()) + "\n"
+            + toString(rect.max());
+    }
+
+    /**
+     * @brief Convert Polygon_2 object to string with all its vertices
+     * @param poly Polygon_2 object
+     * @return A string object containing the representation of Polygon_2 object
+     */
+    std::string toString(const Polygon_2& poly) {
+        std::string points_str = "";
+        for (auto it = poly.begin(); it != poly.end(); ++it) {
+            points_str += toString(*it);
+            if (it != poly.end() - 1) points_str += "\n";
+        }
+
+        return "POLYGON " + std::to_string(poly.size()) + " "
+            + toString(Geo2Util::DefaultBoundaryColor) + " "
+            + toString(Geo2Util::DefaultBoundaryType) + " "
+            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+            + points_str;
+    }
+
+    /**
+     * @brief Convert Polygon_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut)
+     * @param poly_w_h 
+     * @return 
+     */
+    std::string toString(const Polygon_with_holes_2& poly_w_h) {
+        std::string holes_str = "";
+        for (auto it = poly_w_h.holes_begin(); it != poly_w_h.holes_end(); ++it) {
+            holes_str += toString(*it, Geo2Util::DefaultBoundaryColor, Geo2Util::DefaultBoundaryType, TransparentWhite);
+            if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
+        }
+
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
+            + toString(Geo2Util::DefaultBoundaryColor) + " "
+            + toString(Geo2Util::DefaultBoundaryType) + " "
+            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+            + holes_str;
     }
 
     // Customized toString
@@ -163,6 +201,34 @@ namespace Geo2Util {
             + toString(interiorColor) + "\n"
             + toString(rect.min(), boundaryColor, btype, boundaryColor) + "\n"
             + toString(rect.max(), boundaryColor, btype, boundaryColor);
+    }
+
+    std::string toString(const Polygon_2& poly, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+        std::string points_str = "";
+        for (auto it = poly.begin(); it != poly.end(); ++it) {
+            points_str += toString(*it, boundaryColor, btype, boundaryColor);
+            if (it != poly.end() - 1) points_str += "\n";
+        }
+
+        return "POLYGON " + std::to_string(poly.size()) + " "
+            + toString(boundaryColor) + " "
+            + toString(btype) + " "
+            + toString(interiorColor) + "\n"
+            + points_str;
+    }
+
+    std::string toString(const Polygon_with_holes_2& poly_w_h, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
+        std::string holes_str = "";
+        for (auto it = poly_w_h.holes_begin(); it != poly_w_h.holes_end(); ++it) {
+            holes_str += toString(*it, boundaryColor, btype, TransparentWhite);
+            if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
+        }
+
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
+            + toString(boundaryColor) + " "
+            + toString(btype) + " "
+            + toString(interiorColor) + "\n"
+            + holes_str;
     }
 
     /**
