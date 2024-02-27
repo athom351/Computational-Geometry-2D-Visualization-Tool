@@ -130,9 +130,9 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Polygon_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut)
-     * @param poly_w_h 
-     * @return 
+     * @brief Convert Polygon_with_holes_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut)
+     * @param poly_w_h Polygon_with_holes_2 object
+     * @return A string object containing the representation of Polygon_with_holes_2 object
      */
     std::string toString(const Polygon_with_holes_2& poly_w_h) {
         std::string holes_str = "";
@@ -148,6 +148,32 @@ namespace Geo2Util {
             + holes_str;
     }
 
+    /**
+     * @brief Convert Line_2 object to string with point(0) and point(1)
+     * @param line Line_2 object
+     * @return A string object containing the representation of Line_2 object
+     */
+    std::string toString(const Line_2& line) {
+        
+        return "LINE " + toString(Geo2Util::DefaultBoundaryColor) + " "
+            + toString(Geo2Util::DefaultBoundaryType) + "\n"
+            + toString(line.point(0)) + " " + "\n"
+            + toString(line.point(1));
+    }
+
+    /**
+     * @brief Convert Ray_2 object to string with source() and point(1)
+     * @param ray Ray_2 object
+     * @return A string object containing the representation of Ray_2 object
+     */
+    std::string toString(const Ray_2& ray) {
+
+        return "RAY " + toString(Geo2Util::DefaultBoundaryColor) + " "
+            + toString(Geo2Util::DefaultBoundaryType) + "\n"
+            + toString(ray.source()) + " " + "\n"
+            + toString(ray.point(1));
+    }
+
     // Customized toString
     //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
     //! Underlying points of all objects have the same boundary type as the objects themselves
@@ -156,8 +182,8 @@ namespace Geo2Util {
         s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " "
             << p.y() << " "
             << toString(boundaryColor) << " "
-            << toString(interiorColor) << " "
-            << toString(btype);
+            << toString(btype) << " "
+            << toString(interiorColor);
 
         return s.str();
     }
@@ -229,6 +255,21 @@ namespace Geo2Util {
             + toString(btype) + " "
             + toString(interiorColor) + "\n"
             + holes_str;
+    }
+
+    std::string toString(const Line_2& line, const Color& boundaryColor, const BoundaryType btype) {
+
+        return "LINE " + toString(boundaryColor) + " "
+            + toString(btype) + "\n"
+            + toString(line.point(0), boundaryColor, btype, boundaryColor) + "\n"
+            + toString(line.point(1), boundaryColor, btype, boundaryColor);
+    }
+
+    std::string toString(const Ray_2& ray, const Color& boundaryColor, const BoundaryType btype) {
+        return "RAY " + toString(boundaryColor) + " "
+            + toString(btype) + "\n"
+            + toString(ray.source(), boundaryColor, btype, boundaryColor) + "\n"
+            + toString(ray.point(1), boundaryColor, btype, boundaryColor);
     }
 
     /**

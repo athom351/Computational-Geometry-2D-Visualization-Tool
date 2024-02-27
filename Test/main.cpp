@@ -16,6 +16,8 @@ typedef K::Circle_2 Circle_2;
 typedef K::Iso_rectangle_2 Iso_rectangle_2;
 typedef K::Triangle_2 Triangle_2;
 typedef K::Segment_2 Segment_2;
+typedef K::Line_2 Line_2;
+typedef K::Ray_2 Ray_2;
 typedef CGAL::Polygon_2<K> Polygon_2;
 typedef CGAL::Polygon_with_holes_2<K> Polygon_with_holes_2;
 
@@ -139,7 +141,13 @@ int main()
 
     Polygon_with_holes_2 poly_w_h(poly, holes.begin(), holes.end());
 
-    geomObjectArray.push_back(Geo2Util::toString(poly_w_h, Geo2Util::Color{ 2,3,3,4 }, Geo2Util::BoundaryType::Dotted, Geo2Util::Color{ 200,200,200,5 }));
+    geomObjectArray.push_back(Geo2Util::toString(poly_w_h, Geo2Util::Color{ 159,246,37,100 }, Geo2Util::BoundaryType::Dotted, Geo2Util::Color{ 200,200,200,5 }));
+
+    Line_2 line(p, q);
+    geomObjectArray.push_back(Geo2Util::toString(line, Geo2Util::Color{ 200,200,200,60 }, Geo2Util::BoundaryType::Dashed));
+
+    Ray_2 ray(q, s);
+    geomObjectArray.push_back(Geo2Util::toString(ray, Geo2Util::Color{ 157,246,42,30 }, Geo2Util::BoundaryType::Dotted));
 
     Geo2Util::printToFile("test.txt", geomObjectArray);
 

@@ -14,6 +14,8 @@ namespace Geo2Util {
     typedef K::Iso_rectangle_2 Iso_rectangle_2;
     typedef K::Triangle_2 Triangle_2;
     typedef K::Segment_2 Segment_2;
+    typedef K::Line_2 Line_2;
+    typedef K::Ray_2 Ray_2;
     typedef CGAL::Polygon_2<K> Polygon_2;
     typedef CGAL::Polygon_with_holes_2<K> Polygon_with_holes_2;
 
@@ -48,6 +50,8 @@ namespace Geo2Util {
     std::string toString(const Iso_rectangle_2& rect);
     std::string toString(const Polygon_2 & poly);
     std::string toString(const Polygon_with_holes_2 & poly_w_h);
+    std::string toString(const Line_2& line);
+    std::string toString(const Ray_2& ray);
 
     // Customized toString
     //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
@@ -59,6 +63,8 @@ namespace Geo2Util {
     std::string toString(const Iso_rectangle_2& rect, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     std::string toString(const Polygon_2& poly, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
     std::string toString(const Polygon_with_holes_2& poly_w_h, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor);
+    std::string toString(const Line_2& line, const Color& boundaryColor, const BoundaryType btype);
+    std::string toString(const Ray_2& ray, const Color& boundaryColor, const BoundaryType btype);
     
     // Export 2D Geometry Object to File
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);
