@@ -149,16 +149,22 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Line_2 object to string with point(0) and point(1)
+     * @brief Convert Line_2 object to string based on the general equation of a line ax + by + c = 0
      * @param line Line_2 object
      * @return A string object containing the representation of Line_2 object
      */
     std::string toString(const Line_2& line) {
         
-        return "LINE " + toString(Geo2Util::DefaultBoundaryColor) + " "
-            + toString(Geo2Util::DefaultBoundaryType) + "\n"
-            + toString(line.point(0)) + " " + "\n"
-            + toString(line.point(1));
+        std::ostringstream oss;
+
+        oss << std::fixed << std::setprecision(10) << "LINE "
+            << line.a() << " "
+            << line.b() << " "
+            << line.c() << " "
+            << toString(Geo2Util::DefaultBoundaryColor) << " "
+            << toString(Geo2Util::DefaultBoundaryType);
+
+        return oss.str();
     }
 
     /**
@@ -259,10 +265,16 @@ namespace Geo2Util {
 
     std::string toString(const Line_2& line, const Color& boundaryColor, const BoundaryType btype) {
 
-        return "LINE " + toString(boundaryColor) + " "
-            + toString(btype) + "\n"
-            + toString(line.point(0), boundaryColor, btype, boundaryColor) + "\n"
-            + toString(line.point(1), boundaryColor, btype, boundaryColor);
+        std::ostringstream oss;
+
+        oss << std::fixed << std::setprecision(10) << "LINE "
+            << line.a() << " "
+            << line.b() << " "
+            << line.c() << " "
+            << toString(boundaryColor) << " "
+            << toString(btype);
+
+        return oss.str();
     }
 
     std::string toString(const Ray_2& ray, const Color& boundaryColor, const BoundaryType btype) {
