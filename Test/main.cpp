@@ -143,8 +143,11 @@ int main()
 
     geomObjectArray.push_back(Geo2Util::toString(poly_w_h, Geo2Util::Color{ 159,246,37,100 }, Geo2Util::BoundaryType::Dotted, Geo2Util::Color{ 200,200,200,5 }));
 
-    Line_2 line(p, q);
-    geomObjectArray.push_back(Geo2Util::toString(line, Geo2Util::Color{ 200,200,200,60 }, Geo2Util::BoundaryType::Dashed));
+    double a = 3.14159265390;
+    double b = 6.14159265390;
+    double c = 7.14159265390;
+    Line_2 line(a, b, c);
+    geomObjectArray.push_back(Geo2Util::toString(line));
 
     Ray_2 ray(q, s);
     geomObjectArray.push_back(Geo2Util::toString(ray, Geo2Util::Color{ 157,246,42,30 }, Geo2Util::BoundaryType::Dotted));
