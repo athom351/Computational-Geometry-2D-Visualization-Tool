@@ -1,0 +1,96 @@
+//polygon case loop??
+                  case "POLYGON":
+                        //read parameters that define the geometric object
+                        int[] g = parseGeometricObject(tokens[1]);
+
+                        //must read number of vertices, then with that number read amount of lines
+                        //how to create function for idk
+
+                        break;
+
+
+//new cases
+                  case "CIRCLE":
+                        //read parameters that define the geometric object
+                        int[] g = parseGeometricObject(tokens[1]);
+
+                        //read circle radius
+                        double radius = Double.parseDouble(tokens[2]);
+
+                        //read center separately in next line
+                        Point center = parsePoint(in.nextLine());
+
+
+
+                        Circle circ = new Circle(radius, center);
+                        circ.setBoundaryColor(new Color(g[0], g[1], g[2], g[3]));
+                        circ.setBoundaryType(g[4]);
+                        circ.setInteriorColor(new Color(g[5], g[6], g[7], g[8]));
+
+                        gList.add(circ);
+                        break;
+
+                    case "TRIANGLE":
+
+                        //read parameters that define the geometric object
+                        int[] g = parseGeometricObject(tokens[1]);
+
+                        //read points a, b, c for triangle
+                        //read points that define the triangle
+                        Point point1 = parsePoint(in.nextLine());
+                        Point point2 = parsePoint(in.nextLine());
+                        Point point3 = parsePoint(in.nextLine());
+
+                        Triangle trig = new Triangle(point1, point2, point3);
+                        trig.setBoundaryColor(new Color(g[0], g[1], g[2], g[3]));
+                        trig.setBoundaryType(g[4]);
+                        trig.setInteriorColor(new Color(g[5], g[6], g[7], g[8]));
+
+                        gList.add(trig);
+                        break;
+
+                    case "SEGMENT":
+                        //read parameters that define the geometric object
+                        int[] g = parseGeometricObject(tokens[1]);
+
+                        //read two points for line segment, seg_point_a, seg_point_b
+                        Point seg_point_a = parsePoint(in.nextLine());
+                        Point seg_point_b = parsePoint(in.nextLine());
+
+                        Segment segment = new Segment(seg_point_a, seg_point_b);
+                        segment.setBoundaryColor(new Color(g[0], g[1], g[2], g[3]));
+                        segment.setBoundaryType(g[4]);
+
+                        gList.add(segment);
+                        break;
+
+                    case "RAY":
+                        //read parameters that define geometric object
+                        int[] g = parseGeometricObject(tokens[1]);
+
+                        //read the given point
+                        Point ray_point = parsePoint(in.nextLine());
+                        //read direction
+                        Vector ray_vector = parseVector(in.nextLine());
+
+                        Ray ray = new Ray(ray_point, ray_vector);
+                        ray.setBoundaryColor(new Color(g[0], g[1], g[2], g[3]));
+                        ray.setBoundaryType(g[4]);
+
+                        gList.add(ray);
+                        break;
+
+//giving errors in casting at end?? confirmed double
+public static Vector parseVector(String str){
+        String[] vectorInfo = str.split(" ");
+
+        if (vectorInfo.length != 3) {
+            throw new IllegalArgumentException("Invalid vector format: " + str);
+        }
+
+        //parse the values x and y point
+        double x = Double.parseDouble(vectorInfo[1]);
+        double y = Double.parseDouble(vectorInfo[2]);
+
+        return new Vector(x, y);
+    }
