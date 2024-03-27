@@ -141,10 +141,8 @@ namespace Geo2Util {
             if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
         }
 
-        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
-            + toString(Geo2Util::DefaultBoundaryColor) + " "
-            + toString(Geo2Util::DefaultBoundaryType) + " "
-            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + "\n"
+            + toString(poly_w_h.outer_boundary()) + "\n"
             + holes_str;
     }
 
@@ -256,10 +254,8 @@ namespace Geo2Util {
             if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
         }
 
-        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
-            + toString(boundaryColor) + " "
-            + toString(btype) + " "
-            + toString(interiorColor) + "\n"
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + "\n"
+            + toString(poly_w_h.outer_boundary(), boundaryColor, btype, interiorColor) + "\n"
             + holes_str;
     }
 
