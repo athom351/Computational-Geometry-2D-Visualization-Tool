@@ -66,6 +66,17 @@ namespace Geo2Util {
     std::string toString(const Line_2& line, const Color& boundaryColor, const BoundaryType btype);
     std::string toString(const Ray_2& ray, const Color& boundaryColor, const BoundaryType btype);
     
-    // Export 2D Geometry Object to File
+    // Export CGAL 2D Geometry Object to File
     void printToFile(const std::string& filename, const std::vector<std::string>& geo2_Objects);
+
+
+    // Import CGAL 2D Geometry Object from file; visual information will be ignored
+    std::vector<Point_2> getPoints(const std::string& filename); 
+    std::vector<Line_2> getLines(const std::string& filename); 
+    std::vector<Circle_2> getCircles(const std::string& filename); 
+    std::vector<Iso_rectangle_2> getRectangles(const std::string& filename); 
+    std::vector<Triangle_2> getTriangles(const std::string& filename); 
+    std::vector<Segment_2> getSegments(const std::string& filename);
+    std::vector<Ray_2> getRays(const std::string& filename); 
+    std::vector<Polygon_2> getPolygons(const std::string& filename); 
 }
