@@ -365,6 +365,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return points;
     }
 
@@ -387,6 +388,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return lines;
     }
 
@@ -417,6 +419,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return circs;
     }
 
@@ -450,6 +453,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return rects;
     }
 
@@ -488,6 +492,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return tris;
     }
 
@@ -521,6 +526,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return segs;
     }
 
@@ -554,6 +560,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return rays;
     }
 
@@ -584,6 +591,7 @@ namespace Geo2Util {
                 skipObjectDetails(in, header);
             }
         }
+        in.close();
         return polygons;
     }
 }
