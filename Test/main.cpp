@@ -95,7 +95,7 @@ int main()
 {
     Point_2 p0(12, -15), p1(-10, -25.3), p2(-0.01, 0.2);
 
-    Point_2 s1(10, 10), s2(40, 40);
+    Point_2 s1(20, 10), s2(40, 40);
     Segment_2 seg(s1, s2);
 
     Point_2 p(10, 10), q(20, 15), s(10, 15);
@@ -154,4 +154,38 @@ int main()
 
     Geo2Util::printToFile("test.txt", geomObjectArray);
 
+
+    {   // import test
+
+        // lambda function for printing objects (for testing)
+        auto printObjects = [](auto objs) {
+            for (auto& obj : objs) {
+                std::cout << Geo2Util::toString(obj) << '\n';
+            }
+        };
+
+        std::vector<Point_2> points = Geo2Util::getPoints("test.txt");
+        printObjects(points);
+
+        std::vector<Segment_2> segs = Geo2Util::getSegments("test.txt");
+        printObjects(segs);
+
+        std::vector<Line_2> lines = Geo2Util::getLines("test.txt");
+        printObjects(lines);
+
+        std::vector<Iso_rectangle_2> rects = Geo2Util::getRectangles("test.txt");
+        printObjects(rects);
+
+        std::vector<Circle_2> circles = Geo2Util::getCircles("test.txt");
+        printObjects(circles);
+
+        std::vector<Triangle_2> triangles = Geo2Util::getTriangles("test.txt");
+        printObjects(triangles);
+
+        std::vector<Ray_2> rays = Geo2Util::getRays("test.txt");
+        printObjects(rays);
+
+        std::vector<Polygon_2> polygons = Geo2Util::getPolygons("test.txt");
+        printObjects(polygons);
+    }
 }

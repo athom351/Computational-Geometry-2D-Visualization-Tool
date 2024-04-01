@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <boost/algorithm/string/split.hpp> // boost::split
+#include <boost/algorithm/string/classification.hpp > // boost::is_any_of
 
 #include "geo2_util.h"
 
@@ -141,10 +143,8 @@ namespace Geo2Util {
             if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
         }
 
-        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
-            + toString(Geo2Util::DefaultBoundaryColor) + " "
-            + toString(Geo2Util::DefaultBoundaryType) + " "
-            + toString(Geo2Util::DefaultInteriorColor) + "\n"
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + "\n"
+            + toString(poly_w_h.outer_boundary()) + "\n"
             + holes_str;
     }
 
@@ -256,10 +256,8 @@ namespace Geo2Util {
             if (it != poly_w_h.holes_end() - 1) holes_str += "\n";
         }
 
-        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + " "
-            + toString(boundaryColor) + " "
-            + toString(btype) + " "
-            + toString(interiorColor) + "\n"
+        return "POLYGON_WITH_HOLES " + std::to_string(poly_w_h.number_of_holes()) + "\n"
+            + toString(poly_w_h.outer_boundary(), boundaryColor, btype, interiorColor) + "\n"
             + holes_str;
     }
 
@@ -297,5 +295,303 @@ namespace Geo2Util {
             output << geo2_Objects[i] << std::endl;
         }
         output.close();
+    }
+
+    /**
+    * The follow section includes a series of get object functions that retrieve
+    * all CGAL objects of a specific type from a file.
+    */
+
+    namespace {
+        /**
+         * @brief This "private" function skip the object details in the input stream based on the header information that is provided.
+         * @param in 
+         * @param header 
+         */
+        void skipObjectDetails(std::ifstream& in, std::vector<std::string>& header) {
+            if (header.size() == 0) return;
+            
+            int numLines;
+            if (header[0] == "POINT") {
+                numLines = 0;
+            }
+            else if (header[0] == "LINE_SEGMENT") {
+                numLines = 2;
+            }
+            else if (header[0] == "CIRCLE") {
+                numLines = 1;
+            }
+            else if (header[0] == "TRIANGLE") {
+                numLines = 3;
+            }
+            else if (header[0] == "RECTANGLE") {
+                numLines = 2;
+            }
+            else if (header[0] == "LINE") {
+                numLines = 0;
+            }
+            else if (header[0] == "RAY") {
+                numLines = 2;
+            }
+            else if (header[0] == "POLYGON") {
+                if (header.size() < 2) // invalid data format
+                    return; 
+                numLines = std::stoi(header[1]);
+            }
+            else {
+                numLines = 0;
+            }
+            
+            for (int line = 0; line < numLines; ++line) {
+                in.ignore(1028, '\n');
+            }
+        }
+    }
+
+    std::vector<Point_2> getPoints(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Point_2> points;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "POINT") {
+                double x = std::stod(header[1]);
+                double y = std::stod(header[2]);
+
+                points.push_back(Point_2(x, y));
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return points;
+    }
+
+    std::vector<Line_2> getLines(const std::string& filename) {
+        std::ifstream in(filename);
+
+        std::vector<Line_2> lines;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "LINE") {
+                double a = std::stod(header[1]);
+                double b = std::stod(header[2]);
+                double c = std::stod(header[3]);
+
+                lines.push_back(Line_2(a, b, c));
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return lines;
+    }
+
+    std::vector<Circle_2> getCircles(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Circle_2> circs;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "CIRCLE") {
+                double radius = std::stod(header[1]);
+
+                std::vector<std::string> detail;
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_center = std::stod(detail[1]);
+                double y_center = std::stod(detail[2]);
+
+                circs.push_back(
+                    Circle_2(
+                        Point_2(x_center, y_center), radius * radius
+                    )
+                );
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return circs;
+    }
+
+    std::vector<Iso_rectangle_2> getRectangles(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Iso_rectangle_2> rects;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "RECTANGLE") {
+                std::vector<std::string> detail;
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_min = std::stod(detail[1]);
+                double y_min = std::stod(detail[2]);
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_max = std::stod(detail[1]);
+                double y_max = std::stod(detail[2]);
+
+                rects.push_back(
+                    Iso_rectangle_2(
+                        Point_2(x_min, y_min), Point_2(x_max, y_max)
+                    )
+                );
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return rects;
+    }
+
+    std::vector<Triangle_2> getTriangles(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Triangle_2> tris;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "TRIANGLE") {
+                std::vector<std::string> detail;
+                // 0th Vertex
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x1 = std::stod(detail[1]);
+                double y1 = std::stod(detail[2]);
+                // 1st Vertex
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x2 = std::stod(detail[1]);
+                double y2 = std::stod(detail[2]);
+                // 2nd Vertex
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x3 = std::stod(detail[1]);
+                double y3 = std::stod(detail[2]);
+
+                tris.push_back(
+                    Triangle_2(
+                        Point_2(x1, y1), Point_2(x2, y2), Point_2(x3, y3)
+                    )
+                );
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return tris;
+    }
+
+    std::vector<Segment_2> getSegments(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Segment_2> segs;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "LINE_SEGMENT") {
+                std::vector<std::string> detail;
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_src = std::stod(detail[1]);
+                double y_src = std::stod(detail[2]);
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_tar = std::stod(detail[1]);
+                double y_tar = std::stod(detail[2]);
+
+                segs.push_back(
+                    Segment_2(
+                        Point_2(x_src, y_src), Point_2(x_tar, y_tar)
+                    )
+                );
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return segs;
+    }
+
+    std::vector<Ray_2> getRays(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Ray_2> rays;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "RAY") {
+                std::vector<std::string> detail;
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_src = std::stod(detail[1]);
+                double y_src = std::stod(detail[2]);
+
+                std::getline(in, content);
+                boost::split(detail, content, boost::is_any_of(" \n"));
+                double x_direct = std::stod(detail[1]);
+                double y_direct = std::stod(detail[2]);
+
+                rays.push_back(
+                    Ray_2(
+                        Point_2(x_src, y_src), Point_2(x_direct, y_direct)
+                    )
+                );
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return rays;
+    }
+
+    std::vector<Polygon_2> getPolygons(const std::string& filename) {
+        std::ifstream in(filename);
+        std::vector<Polygon_2> polygons;
+        std::string content;
+        while (std::getline(in, content)) {
+            std::vector<std::string> header;
+            boost::split(header, content, boost::is_any_of(" \n"));
+            if (header[0] == "POLYGON") {
+                int numVertices = std::stoi(header[1]);
+
+                Polygon_2 poly;
+                std::vector<std::string> detail;
+
+                for (int i = 0; i < numVertices; ++i) {
+                    std::getline(in, content);
+                    boost::split(detail, content, boost::is_any_of(" \n"));
+                    double x = std::stod(detail[1]);
+                    double y = std::stod(detail[2]);
+
+                    poly.push_back(Point_2(x, y));
+                }
+                polygons.push_back(poly);
+            } 
+            else {
+                skipObjectDetails(in, header);
+            }
+        }
+        in.close();
+        return polygons;
     }
 }
