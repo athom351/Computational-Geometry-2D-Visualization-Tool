@@ -93,66 +93,66 @@ typedef CGAL::Polygon_with_holes_2<K> Polygon_with_holes_2;
 
 int main()
 {
-    Point_2 p0(12, -15), p1(-10, -25.3), p2(-0.01, 0.2);
+    //Point_2 p0(12, -15), p1(-10, -25.3), p2(-0.01, 0.2);
 
-    Point_2 s1(20, 10), s2(40, 40);
-    Segment_2 seg(s1, s2);
+    //Point_2 s1(20, 10), s2(40, 40);
+    //Segment_2 seg(s1, s2);
 
-    Point_2 p(10, 10), q(20, 15), s(10, 15);
+    //Point_2 p(10, 10), q(20, 15), s(10, 15);
 
-    Triangle_2 tri(p, q, s);
+    //Triangle_2 tri(p, q, s);
 
-    Circle_2 circ(p, 4);
+    //Circle_2 circ(p, 4);
 
-    Iso_rectangle_2 rect(p, q);
+    //Iso_rectangle_2 rect(p, q);
 
 
-    std::vector<std::string> geomObjectArray;
+    //std::vector<std::string> geomObjectArray;
 
-    geomObjectArray.push_back(Geo2Util::toString(p0));
-    geomObjectArray.push_back(Geo2Util::toString(p1));
-    geomObjectArray.push_back(Geo2Util::toString(p2));
-    geomObjectArray.push_back(Geo2Util::toString(seg));
+    //geomObjectArray.push_back(Geo2Util::toString(p0));
+    //geomObjectArray.push_back(Geo2Util::toString(p1));
+    //geomObjectArray.push_back(Geo2Util::toString(p2));
+    //geomObjectArray.push_back(Geo2Util::toString(seg));
 
-    geomObjectArray.push_back(Geo2Util::toString(circ));
+    //geomObjectArray.push_back(Geo2Util::toString(circ));
 
-    geomObjectArray.push_back(Geo2Util::toString(tri));
+    //geomObjectArray.push_back(Geo2Util::toString(tri));
 
-    geomObjectArray.push_back(Geo2Util::toString(rect));
+    //geomObjectArray.push_back(Geo2Util::toString(rect));
   
-    // create a polygon with three holes
-    Polygon_2 poly;
-    poly.push_back(Point_2(0, 0)); poly.push_back(Point_2(9, 0));
-    poly.push_back(Point_2(6, 8)); poly.push_back(Point_2(5, 3));
-    poly.push_back(Point_2(2, 8)); poly.push_back(Point_2(0, 8));
+    //// create a polygon with three holes
+    //Polygon_2 poly;
+    //poly.push_back(Point_2(0, 0)); poly.push_back(Point_2(9, 0));
+    //poly.push_back(Point_2(6, 8)); poly.push_back(Point_2(5, 3));
+    //poly.push_back(Point_2(2, 8)); poly.push_back(Point_2(0, 8));
 
-    geomObjectArray.push_back(Geo2Util::toString(poly));
+    //geomObjectArray.push_back(Geo2Util::toString(poly));
 
-    std::vector<Polygon_2> holes(3);
-    holes[0].push_back(Point_2(6, 2)); holes[0].push_back(Point_2(7, 1));
-    holes[0].push_back(Point_2(7, 3)); holes[0].push_back(Point_2(6, 3));
-    holes[0].push_back(Point_2(5, 2));
-    holes[1].push_back(Point_2(2, 1)); holes[1].push_back(Point_2(3, 1));
-    holes[1].push_back(Point_2(3, 3)); holes[1].push_back(Point_2(2, 2));
-    holes[1].push_back(Point_2(1, 2));
-    holes[2].push_back(Point_2(1, 4)); holes[2].push_back(Point_2(2, 4));
-    holes[2].push_back(Point_2(2, 5)); holes[2].push_back(Point_2(3, 5));
-    holes[2].push_back(Point_2(3, 6)); holes[2].push_back(Point_2(1, 6));
+    //std::vector<Polygon_2> holes(3);
+    //holes[0].push_back(Point_2(6, 2)); holes[0].push_back(Point_2(7, 1));
+    //holes[0].push_back(Point_2(7, 3)); holes[0].push_back(Point_2(6, 3));
+    //holes[0].push_back(Point_2(5, 2));
+    //holes[1].push_back(Point_2(2, 1)); holes[1].push_back(Point_2(3, 1));
+    //holes[1].push_back(Point_2(3, 3)); holes[1].push_back(Point_2(2, 2));
+    //holes[1].push_back(Point_2(1, 2));
+    //holes[2].push_back(Point_2(1, 4)); holes[2].push_back(Point_2(2, 4));
+    //holes[2].push_back(Point_2(2, 5)); holes[2].push_back(Point_2(3, 5));
+    //holes[2].push_back(Point_2(3, 6)); holes[2].push_back(Point_2(1, 6));
 
-    Polygon_with_holes_2 poly_w_h(poly, holes.begin(), holes.end());
+    //Polygon_with_holes_2 poly_w_h(poly, holes.begin(), holes.end());
 
-    geomObjectArray.push_back(Geo2Util::toString(poly_w_h, Geo2Util::Color{ 159,246,37,100 }, Geo2Util::BoundaryType::Dotted, Geo2Util::Color{ 200,200,200,5 }));
+    //geomObjectArray.push_back(Geo2Util::toString(poly_w_h, Geo2Util::Color{ 159,246,37,100 }, Geo2Util::BoundaryType::Dotted, Geo2Util::Color{ 200,200,200,5 }));
 
-    double a = 3.14159265390;
-    double b = 6.14159265390;
-    double c = 7.14159265390;
-    Line_2 line(a, b, c);
-    geomObjectArray.push_back(Geo2Util::toString(line));
+    //double a = 3.14159265390;
+    //double b = 6.14159265390;
+    //double c = 7.14159265390;
+    //Line_2 line(a, b, c);
+    //geomObjectArray.push_back(Geo2Util::toString(line));
 
-    Ray_2 ray(q, s);
-    geomObjectArray.push_back(Geo2Util::toString(ray, Geo2Util::Color{ 157,246,42,30 }, Geo2Util::BoundaryType::Dotted));
+    //Ray_2 ray(q, s);
+    //geomObjectArray.push_back(Geo2Util::toString(ray, Geo2Util::Color{ 157,246,42,30 }, Geo2Util::BoundaryType::Dotted));
 
-    Geo2Util::printToFile("test.txt", geomObjectArray);
+    //Geo2Util::printToFile("test.txt", geomObjectArray);
 
 
     {   // import test
@@ -164,28 +164,28 @@ int main()
             }
         };
 
-        std::vector<Point_2> points = Geo2Util::getPoints("test.txt");
+        std::vector<Point_2> points = Geo2Util::getPoints("test_import.txt");
         printObjects(points);
 
-        std::vector<Segment_2> segs = Geo2Util::getSegments("test.txt");
+        std::vector<Segment_2> segs = Geo2Util::getSegments("test_import.txt");
         printObjects(segs);
 
-        std::vector<Line_2> lines = Geo2Util::getLines("test.txt");
+        std::vector<Line_2> lines = Geo2Util::getLines("test_import.txt");
         printObjects(lines);
 
-        std::vector<Iso_rectangle_2> rects = Geo2Util::getRectangles("test.txt");
+        std::vector<Iso_rectangle_2> rects = Geo2Util::getRectangles("test_import.txt");
         printObjects(rects);
 
-        std::vector<Circle_2> circles = Geo2Util::getCircles("test.txt");
+        std::vector<Circle_2> circles = Geo2Util::getCircles("test_import.txt");
         printObjects(circles);
 
-        std::vector<Triangle_2> triangles = Geo2Util::getTriangles("test.txt");
+        std::vector<Triangle_2> triangles = Geo2Util::getTriangles("test_import.txt");
         printObjects(triangles);
 
-        std::vector<Ray_2> rays = Geo2Util::getRays("test.txt");
+        std::vector<Ray_2> rays = Geo2Util::getRays("test_import.txt");
         printObjects(rays);
 
-        std::vector<Polygon_2> polygons = Geo2Util::getPolygons("test.txt");
+        std::vector<Polygon_2> polygons = Geo2Util::getPolygons("test_import.txt");
         printObjects(polygons);
     }
 }
