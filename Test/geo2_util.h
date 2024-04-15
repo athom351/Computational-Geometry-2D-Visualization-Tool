@@ -1,11 +1,10 @@
 #pragma once
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polygon_2.h>
-#include <CGAL/Polygon_with_holes_2.h>
-
 #include <string>
 #include <vector>
 
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/Polygon_with_holes_2.h>
 
 namespace Geo2Util {
     typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
@@ -32,7 +31,7 @@ namespace Geo2Util {
         Dashed = 2
     };
 
-    // Constants
+    // Default Visual Setting
     const Color DefaultBoundaryColor = { 0, 0, 0, 255 };
     const Color DefaultInteriorColor = { 0, 0, 0, 255 };
     const Color TransparentWhite = { 255, 255, 255, 0 };

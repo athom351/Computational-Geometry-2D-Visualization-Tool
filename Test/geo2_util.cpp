@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+
 #include <boost/algorithm/string/split.hpp> // boost::split
 #include <boost/algorithm/string/classification.hpp > // boost::is_any_of
 
@@ -35,7 +36,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Point_2 object to string with its x and y coordinate
+     * @brief Convert Point_2 object to string with its x and y coordinate, with default visual setting
      * @param p Point_2 object
      * @return A string object containing the representation of Point_2 object
      */
@@ -52,7 +53,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Segment_2 object to string with its source point and target point
+     * @brief Convert Segment_2 object to string with its source point and target point, with default visual setting
      * @param seg Segment_2 object
      * @return A string object containing the representation of Segment_2 object
      */
@@ -65,7 +66,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Circle_2 object to string with its center point and radius
+     * @brief Convert Circle_2 object to string with its center point and radius, with default visual setting
      * @param circ Circle_2 object
      * @return A string object containing the representation of Circle_2 object
      */
@@ -84,7 +85,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Triangle_2 object to string with its three vertices
+     * @brief Convert Triangle_2 object to string with its three vertices, with default visual setting
      * @param tri Triangle_2 object
      * @return A string object containing the representation of Triangle_2 object
      */
@@ -99,7 +100,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Iso_rectangle_2 object to string with its diagonal opposite vertices
+     * @brief Convert Iso_rectangle_2 object to string with its diagonal opposite vertices, with default visual setting
      * @param rect Iso_rectangle_2 object
      * @return A string object containing the representation of Iso_rectangle_2 object
      */
@@ -113,7 +114,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Polygon_2 object to string with all its vertices
+     * @brief Convert Polygon_2 object to string with all its vertices, with default visual setting
      * @param poly Polygon_2 object
      * @return A string object containing the representation of Polygon_2 object
      */
@@ -132,7 +133,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Polygon_with_holes_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut)
+     * @brief Convert Polygon_with_holes_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut), with default visual setting
      * @param poly_w_h Polygon_with_holes_2 object
      * @return A string object containing the representation of Polygon_with_holes_2 object
      */
@@ -149,7 +150,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Line_2 object to string based on the general equation of a line ax + by + c = 0
+     * @brief Convert Line_2 object to string based on the general equation of a line ax + by + c = 0, with default visual setting
      * @param line Line_2 object
      * @return A string object containing the representation of Line_2 object
      */
@@ -168,7 +169,7 @@ namespace Geo2Util {
     }
 
     /**
-     * @brief Convert Ray_2 object to string with source() and point(1)
+     * @brief Convert Ray_2 object to string with source() and point(1), with default visual setting
      * @param ray Ray_2 object
      * @return A string object containing the representation of Ray_2 object
      */
@@ -180,9 +181,14 @@ namespace Geo2Util {
             + toString(ray.point(1));
     }
 
-    // Customized toString
-    //! Underlying points of all objects (except Point_2) have the same color (boundary color and interior color) as its boundary color
-    //! Underlying points of all objects have the same boundary type as the objects themselves
+    /**
+     * @brief Convert Point_2 object to string with its x and y coordinate, with customized visual setting
+     * @param p Point_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return A string object containing the representation of Point_2 object
+     */
     std::string toString(const Point_2& p, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
         std::ostringstream s;
         s << std::fixed << std::setprecision(10) << "POINT " << p.x() << " "
@@ -194,6 +200,13 @@ namespace Geo2Util {
         return s.str();
     }
 
+    /**
+     * @brief Convert Segment_2 object to string with its source point and target point, with customized visual setting
+     * @param seg Segment_2 object to be set
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @return A string object containing the representation of Segment_2 object
+     */
     std::string toString(const Segment_2& seg, const Color& boundaryColor, const BoundaryType btype) {
 
         return "LINE_SEGMENT " + toString(boundaryColor) + " "
@@ -202,6 +215,14 @@ namespace Geo2Util {
             + toString(seg.target(), boundaryColor, btype, boundaryColor);
     }
 
+    /**
+     * @brief Convert Circle_2 object to string with its center point and radius, with customized visual setting
+     * @param circ Circle_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return 
+     */
     std::string toString(const Circle_2& circ, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
 
         double raduis = std::sqrt(circ.squared_radius());
@@ -216,6 +237,14 @@ namespace Geo2Util {
         return c.str();
     }
 
+    /**
+     * @brief Triangle_2 object to string with its three vertices, with customized visual setting
+     * @param tri Triangle_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return A string object containing the representation of Triangle_2 object
+     */
     std::string toString(const Triangle_2& tri, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
 
         return "TRIANGLE " + toString(boundaryColor) + " "
@@ -226,6 +255,14 @@ namespace Geo2Util {
             + toString(tri[2], boundaryColor, btype, boundaryColor);
     }
 
+    /**
+     * @brief Iso_rectangle_2 object to string with its diagonal opposite vertices, with customized visual setting
+     * @param rect Iso_rectangle_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return A string object containing the representation of Iso_rectangle_2 object
+     */
     std::string toString(const Iso_rectangle_2& rect, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
 
         return "RECTANGLE " + toString(boundaryColor) + " "
@@ -235,6 +272,14 @@ namespace Geo2Util {
             + toString(rect.max(), boundaryColor, btype, boundaryColor);
     }
 
+    /**
+     * @brief Convert Polygon_2 object to string with all its vertices, with customized visual setting
+     * @param poly Polygon_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return A string object containing the representation of Polygon_2 object
+     */
     std::string toString(const Polygon_2& poly, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
         std::string points_str = "";
         for (auto it = poly.begin(); it != poly.end(); ++it) {
@@ -249,6 +294,14 @@ namespace Geo2Util {
             + points_str;
     }
 
+    /**
+     * @brief Convert Polygon_with_holes_2 object to string with all its holes and holes' vertices (the interiors of the holes are transparent and white by defalut), with customized visual setting
+     * @param poly_w_h Polygon_with_holes_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @param interiorColor Interior color to be set
+     * @return A string object containing the representation of Polygon_with_holes_2 object
+     */
     std::string toString(const Polygon_with_holes_2& poly_w_h, const Color& boundaryColor, const BoundaryType btype, const Color& interiorColor) {
         std::string holes_str = "";
         for (auto it = poly_w_h.holes_begin(); it != poly_w_h.holes_end(); ++it) {
@@ -261,6 +314,13 @@ namespace Geo2Util {
             + holes_str;
     }
 
+    /**
+     * @brief Convert Line_2 object to string based on the general equation of a line ax + by + c = 0, with default visual setting
+     * @param line Line_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @return A string object containing the representation of Line_2 object
+     */
     std::string toString(const Line_2& line, const Color& boundaryColor, const BoundaryType btype) {
 
         std::ostringstream oss;
@@ -275,6 +335,13 @@ namespace Geo2Util {
         return oss.str();
     }
 
+    /**
+     * @brief Convert Ray_2 object to string with source() and point(1), with customized visual setting
+     * @param ray Ray_2 object
+     * @param boundaryColor Boundary color to be set
+     * @param btype Boundary type to be set
+     * @return A string object containing the representation of Ray_2 object
+     */
     std::string toString(const Ray_2& ray, const Color& boundaryColor, const BoundaryType btype) {
         return "RAY " + toString(boundaryColor) + " "
             + toString(btype) + "\n"
@@ -303,51 +370,66 @@ namespace Geo2Util {
     */
 
     namespace {
+        // The number of lines that certain object's detail has
+        const int PointDetailLength = 0;
+        const int SegmentDetailLength = 2;
+        const int CircleDetailLength = 1;
+        const int TriangleDetailLength = 3;
+        const int RectangleDetailLength = 2;
+        const int LineDetailLength = 0;
+        const int RayDetailLength = 2;
+
         /**
          * @brief This "private" function skip the object details in the input stream based on the header information that is provided.
-         * @param in 
-         * @param header 
+         * @param in Input stream
+         * @param header Object header
          */
         void skipObjectDetails(std::ifstream& in, std::vector<std::string>& header) {
             if (header.size() == 0) return;
             
-            int numLines;
+            int num_lines = 0;
             if (header[0] == "POINT") {
-                numLines = 0;
+                num_lines = PointDetailLength;
             }
             else if (header[0] == "LINE_SEGMENT") {
-                numLines = 2;
+                num_lines = SegmentDetailLength;
             }
             else if (header[0] == "CIRCLE") {
-                numLines = 1;
+                num_lines = CircleDetailLength;
             }
             else if (header[0] == "TRIANGLE") {
-                numLines = 3;
+                num_lines = TriangleDetailLength;
             }
             else if (header[0] == "RECTANGLE") {
-                numLines = 2;
+                num_lines = RectangleDetailLength;
             }
             else if (header[0] == "LINE") {
-                numLines = 0;
+                num_lines = LineDetailLength;
             }
             else if (header[0] == "RAY") {
-                numLines = 2;
+                num_lines = RayDetailLength;
             }
             else if (header[0] == "POLYGON") {
                 if (header.size() < 2) // invalid data format
                     return; 
-                numLines = std::stoi(header[1]);
+                num_lines = std::stoi(header[1]);
             }
             else {
-                numLines = 0;
+                num_lines = 0;
             }
             
-            for (int line = 0; line < numLines; ++line) {
-                in.ignore(1028, '\n');
+            const int max_len_per_line = 1028;
+            for (int line = 0; line < num_lines; ++line) {
+                in.ignore(max_len_per_line, '\n');
             }
         }
     }
 
+    /**
+     * @brief Retrieve a vector of Point_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Point_2 objects
+     */
     std::vector<Point_2> getPoints(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Point_2> points;
@@ -369,6 +451,11 @@ namespace Geo2Util {
         return points;
     }
 
+    /**
+     * @brief Retrieve a vector of Line_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Line_2 objects
+     */
     std::vector<Line_2> getLines(const std::string& filename) {
         std::ifstream in(filename);
 
@@ -392,6 +479,11 @@ namespace Geo2Util {
         return lines;
     }
 
+    /**
+     * @brief Retrieve a vector of Circle_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Circle_2 objects
+     */
     std::vector<Circle_2> getCircles(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Circle_2> circs;
@@ -423,6 +515,11 @@ namespace Geo2Util {
         return circs;
     }
 
+    /**
+     * @brief Retrieve a vector of Iso_rectangle_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Iso_rectangle_2 objects
+     */
     std::vector<Iso_rectangle_2> getRectangles(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Iso_rectangle_2> rects;
@@ -457,6 +554,11 @@ namespace Geo2Util {
         return rects;
     }
 
+    /**
+     * @brief Retrieve a vector of Triangle_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Triangle_2 objects
+     */
     std::vector<Triangle_2> getTriangles(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Triangle_2> tris;
@@ -496,6 +598,11 @@ namespace Geo2Util {
         return tris;
     }
 
+    /**
+     * @brief Retrieve a vector of Segment_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Segment_2 objects
+     */
     std::vector<Segment_2> getSegments(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Segment_2> segs;
@@ -530,6 +637,11 @@ namespace Geo2Util {
         return segs;
     }
 
+    /**
+     * @brief Retrieve a vector of Ray_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Ray_2 objects
+     */
     std::vector<Ray_2> getRays(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Ray_2> rays;
@@ -564,6 +676,11 @@ namespace Geo2Util {
         return rays;
     }
 
+    /**
+     * @brief Retrieve a vector of Polygon_2 objects from target file.
+     * @param filename Target file
+     * @return A vector of Polygon_2 objects
+     */
     std::vector<Polygon_2> getPolygons(const std::string& filename) {
         std::ifstream in(filename);
         std::vector<Polygon_2> polygons;
