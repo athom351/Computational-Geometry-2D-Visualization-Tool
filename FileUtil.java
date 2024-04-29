@@ -349,4 +349,61 @@ public class FileUtil
         return polygon;
     }
 
+
+    public static String exportGeomObject(Point p) {
+        return "POINT " + p.getX() + " " + p.getY() + " " + p.toString();
+    }
+
+    public static String exportGeomObject(Line line) {
+        return "LINE " + line.getA() + " " + line.getB() + " " + line.getC() + " " + line.toString();
+    }
+
+    public static String exportGeomObject(LineSegment lineSegment) {
+        return "LINE_SEGMENT " + lineSegment.getBegin().getX() + " " + lineSegment.getBegin().getY() + " " +
+                lineSegment.getEnd().getX() + " " + lineSegment.getEnd().getY() + " " + lineSegment.toString();
+    }
+
+    public static String exportGeomObject(Ray ray) {
+        return "RAY " + ray.getSource().getX() + " " + ray.getSource().getY() + " " +
+                ray.getDirection().getX() + " " + ray.getDirection().getY() + " " + ray.toString();
+    }
+
+    public static String exportGeomObject(Circle c) {
+        return "CIRCLE " + c.getRadius() + " " + c.getCenter().getX() + " " + c.getCenter().getY() + " " + c.toString();
+    }
+
+    public static String exportGeomObject(Triangle t) {
+        return "TRIANGLE " + t.getBegin().getX() + " " + t.getBegin().getY() + " " +
+                t.getMiddle().getX() + " " + t.getMiddle().getY() + " " +
+                t.getEnd().getX() + " " + t.getEnd().getY() + " " + t.toString();
+    }
+
+    public static String exportGeomObject(Rectangle rectangle) {
+        return "RECTANGLE " + rectangle.getBegin().getX() + " " + rectangle.getBegin().getY() + " " +
+                rectangle.getEnd().getX() + " " + rectangle.getEnd().getY() + " " + rectangle.toString();
+    }
+
+    public static String exportGeomObject(Polygon polygon) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("POLYGON ").append(polygon.getNumberOfVertices()).append("\n");
+    Point[] vertices = polygon.getVertices();
+        for (Point vertex : vertices) {
+        sb.append(vertex.getX()).append(" ").append(vertex.getY()).append("\n");
+        }
+    return sb.toString();
+    }
+
+    public static void exportToFile(String[] exportedObjects, String filename) {
+        try {
+            FileWriter writer = new FileWriter(filename);
+            for (String object : exportedObjects) {
+                writer.write(object + "\n"); // Write each object followed by a newline
+            }
+            writer.close();
+            System.out.println("Export successful to file: " + filename);
+        } catch (IOException e) {
+            System.out.println("Error exporting to file: " + e.getMessage());
+        }
+    }
+
 }
