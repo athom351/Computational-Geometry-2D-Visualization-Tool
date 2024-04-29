@@ -1,10 +1,9 @@
+import GeometricObjects.*;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
-//import GeometricObjects.*;
-
-/**
- * Tests reading geometric objects from a file.
- * 
-public class TestFileRead15
+ublic class TestFileRead15
 {
     public static void main(String[] args)
     {
@@ -21,7 +20,24 @@ public class TestFileRead15
         //new loop
         for (int i = 0; i < gArray.length; i++) {
             //Exporting storing in the new array
-            exportedObjects[i] = gArray[i].exportGeomObject();
+            if (gArray[i] instanceof Point) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Point) gArray[i]);
+            } else if (gArray[i] instanceof Line) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Line) gArray[i]);
+            } else if (gArray[i] instanceof LineSegment) {
+                exportedObjects[i] = FileUtil.exportGeomObject((LineSegment) gArray[i]);
+            } else if (gArray[i] instanceof Ray) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Ray) gArray[i]);
+            } else if (gArray[i] instanceof Circle) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Circle) gArray[i]);
+            } else if (gArray[i] instanceof Triangle) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Triangle) gArray[i]);
+            } else if (gArray[i] instanceof Rectangle) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Rectangle) gArray[i]);
+            } else if (gArray[i] instanceof Polygon) {
+                exportedObjects[i] = FileUtil.exportGeomObject((Polygon) gArray[i]);
+            }
+
         }
 
         //Exporting array of strings to txt file
@@ -30,8 +46,6 @@ public class TestFileRead15
         //Output Success???
         System.out.println("Geometric Objects exported to file: exported_objects.txt");
 
-        //commented out OLD!!
-        //for(GeometricObject g : gArray) {System.out.println(g);}
         
     }
 
