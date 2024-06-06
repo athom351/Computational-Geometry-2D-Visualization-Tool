@@ -1,1 +1,2 @@
+**Introduction**
 The Geometric Visualization Tool, currently in its first version, is specifically made to facilitate seamless import and export operations between C++ and Java environments. This design enhances user experience by simplifying the creation and visualization of geometric objects, and offering a more intuitive interface for both novice and experienced programmers in educational and professional settings.
